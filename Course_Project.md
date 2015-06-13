@@ -70,8 +70,8 @@ subTraining <- subTrain[inTrain,]
 subValidation <- subTrain[-inTrain,]
 ```
 
-## Create the prediction model (using rainforest)
-Using the first set of data, to create the prediction model (using rainforest).  
+## Create the prediction model (using random forest)
+Using the first set of data, to create the prediction model (using random forest).  
 
 Because of the CPU resources required, first, setup to run it in Parallel, using all the CPU cores available...as advised by Course Forum.  Also, even with it running on multiple cores, it will take a long time to create the prediction model. As such, load the model from a previous good run by checking if the model file exists.  
   
@@ -125,33 +125,33 @@ confusionMatrix(predTrain, subTraining$classe)
 ## 
 ##           Reference
 ## Prediction    A    B    C    D    E
-##          A 3348    1    0    0    0
-##          B    0 2278    5    0    0
-##          C    0    0 2049    2    0
-##          D    0    0    0 1927    0
-##          E    0    0    0    1 2165
+##          A 3348    0    0    0    0
+##          B    0 2279    3    0    0
+##          C    0    0 2051    2    0
+##          D    0    0    0 1928    0
+##          E    0    0    0    0 2165
 ## 
 ## Overall Statistics
-##                                           
-##                Accuracy : 0.9992          
-##                  95% CI : (0.9985, 0.9997)
-##     No Information Rate : 0.2843          
-##     P-Value [Acc > NIR] : < 2.2e-16       
-##                                           
-##                   Kappa : 0.999           
-##  Mcnemar's Test P-Value : NA              
+##                                          
+##                Accuracy : 0.9996         
+##                  95% CI : (0.999, 0.9999)
+##     No Information Rate : 0.2843         
+##     P-Value [Acc > NIR] : < 2.2e-16      
+##                                          
+##                   Kappa : 0.9995         
+##  Mcnemar's Test P-Value : NA             
 ## 
 ## Statistics by Class:
 ## 
 ##                      Class: A Class: B Class: C Class: D Class: E
-## Sensitivity            1.0000   0.9996   0.9976   0.9984   1.0000
-## Specificity            0.9999   0.9995   0.9998   1.0000   0.9999
-## Pos Pred Value         0.9997   0.9978   0.9990   1.0000   0.9995
-## Neg Pred Value         1.0000   0.9999   0.9995   0.9997   1.0000
+## Sensitivity            1.0000   1.0000   0.9985   0.9990   1.0000
+## Specificity            1.0000   0.9997   0.9998   1.0000   1.0000
+## Pos Pred Value         1.0000   0.9987   0.9990   1.0000   1.0000
+## Neg Pred Value         1.0000   1.0000   0.9997   0.9998   1.0000
 ## Prevalence             0.2843   0.1935   0.1744   0.1639   0.1838
-## Detection Rate         0.2843   0.1934   0.1740   0.1636   0.1838
-## Detection Prevalence   0.2844   0.1939   0.1742   0.1636   0.1839
-## Balanced Accuracy      0.9999   0.9995   0.9987   0.9992   0.9999
+## Detection Rate         0.2843   0.1935   0.1742   0.1637   0.1838
+## Detection Prevalence   0.2843   0.1938   0.1743   0.1637   0.1838
+## Balanced Accuracy      1.0000   0.9998   0.9992   0.9995   1.0000
 ```
 
 Using the validation subset and create a prediction.  Then measure it's accuracy.  From the training subset, the accuracy is very high, at above 99%.
@@ -167,33 +167,33 @@ confusionMatrix(predTest, subValidation$classe)
 ## 
 ##           Reference
 ## Prediction    A    B    C    D    E
-##          A 2232    0    0    0    0
-##          B    0 1518    0    0    0
-##          C    0    0 1368    1    0
-##          D    0    0    0 1285    0
-##          E    0    0    0    0 1442
+##          A 2232    1    0    0    0
+##          B    0 1517    2    0    0
+##          C    0    0 1366    1    0
+##          D    0    0    0 1284    1
+##          E    0    0    0    1 1441
 ## 
 ## Overall Statistics
-##                                      
-##                Accuracy : 0.9999     
-##                  95% CI : (0.9993, 1)
-##     No Information Rate : 0.2845     
-##     P-Value [Acc > NIR] : < 2.2e-16  
-##                                      
-##                   Kappa : 0.9998     
-##  Mcnemar's Test P-Value : NA         
+##                                           
+##                Accuracy : 0.9992          
+##                  95% CI : (0.9983, 0.9997)
+##     No Information Rate : 0.2845          
+##     P-Value [Acc > NIR] : < 2.2e-16       
+##                                           
+##                   Kappa : 0.999           
+##  Mcnemar's Test P-Value : NA              
 ## 
 ## Statistics by Class:
 ## 
 ##                      Class: A Class: B Class: C Class: D Class: E
-## Sensitivity            1.0000   1.0000   1.0000   0.9992   1.0000
-## Specificity            1.0000   1.0000   0.9998   1.0000   1.0000
-## Pos Pred Value         1.0000   1.0000   0.9993   1.0000   1.0000
-## Neg Pred Value         1.0000   1.0000   1.0000   0.9998   1.0000
+## Sensitivity            1.0000   0.9993   0.9985   0.9984   0.9993
+## Specificity            0.9998   0.9997   0.9998   0.9998   0.9998
+## Pos Pred Value         0.9996   0.9987   0.9993   0.9992   0.9993
+## Neg Pred Value         1.0000   0.9998   0.9997   0.9997   0.9998
 ## Prevalence             0.2845   0.1935   0.1744   0.1639   0.1838
-## Detection Rate         0.2845   0.1935   0.1744   0.1638   0.1838
-## Detection Prevalence   0.2845   0.1935   0.1745   0.1638   0.1838
-## Balanced Accuracy      1.0000   1.0000   0.9999   0.9996   1.0000
+## Detection Rate         0.2845   0.1933   0.1741   0.1637   0.1837
+## Detection Prevalence   0.2846   0.1936   0.1742   0.1638   0.1838
+## Balanced Accuracy      0.9999   0.9995   0.9992   0.9991   0.9996
 ```
 
 From the validation subset, the accuracy is still very high, at above 99%. From the model, the following are the list of important predictors in the model.  The OOB Estimate Error create is found in the model.

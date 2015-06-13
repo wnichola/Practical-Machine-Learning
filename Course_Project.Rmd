@@ -64,8 +64,8 @@ subTraining <- subTrain[inTrain,]
 subValidation <- subTrain[-inTrain,]
 ```
 
-## Create the prediction model (using rainforest)
-Using the first set of data, to create the prediction model (using rainforest).  
+## Create the prediction model (using random forest)
+Using the first set of data, to create the prediction model (using random forest).  
 
 Because of the CPU resources required, first, setup to run it in Parallel, using all the CPU cores available...as advised by Course Forum.  Also, even with it running on multiple cores, it will take a long time to create the prediction model. As such, load the model from a previous good run by checking if the model file exists.  
   
