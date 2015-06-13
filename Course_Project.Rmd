@@ -8,7 +8,7 @@ output:
 ---
 
 ## Download and load files into data.tables
-Check if the file exists.  If not, download it from the URL.  When reading in the file, change invalid values to NA.  
+Check if the data files exist.  If not, download it from the URL.  When reading in the file, change invalid values to NA.  
 
 ```{r}
 library(caret)
@@ -53,9 +53,9 @@ subTrain <- subTrain[,-1]
 subTrain <- subTrain[, c(1:3, 5:58)]
 ```
 ## Separate the data to be used for Cross Validation
-Using the training data, separate out a set to be used for validation.  Technically, there is no need to create a separate set for validation given the Random Forests algorithm is a classifier based on primarily two methods - bagging and random subspace method.  And the datasets used are created using bootstrapping (resampling with replacement). using the out-of-bag error estimate removes the need for a set aside test set.  
+Using the training data, separate out a set to be used for validation.  From what I've read, there is no need to create a separate set for validation given the Random Forests algorithm is a classifier based on primarily two methods - bagging and random subspace method.  And the datasets used are created using bootstrapping (resampling with replacement), and internally performs cross-validation to refine the model. The out-of-bag error estimate defines the estimation errors in the internal generated validation sets.   
 
-Still the Cross Validation dataset is created here because it is one of the evaluation criteria.  
+However, as it is one of the project evaluation criteria, there is no harm to create a cross validation dataset to compare the model created by the training subset.  
 
 ```{r}
 # Divide the training data into a training set and a validation set
@@ -101,20 +101,18 @@ confusionMatrix(predTrain, subTraining$classe)
 Using the validation subset and create a prediction.  Then measure it's accuracy.  From the training subset, the accuracy is very high, at above 99%.
 
 ```{r}
-predTest <- predict(fit, subValidation)
-confusionMatrix(predTest, subValidation$classe)
+predValidation <- predict(fit, subValidation)
+confusionMatrix(predValidation, subValidation$classe)
 ```
 
-From the validation subset, the accuracy is still very high, at above 99%. From the model, the following are the list of important predictors in the model.  The OOB Estimate Error create is found in the model.
+From the validation subset, the accuracy is still very high, at above 99%. From the model, the following are the list of important predictors in the model.  
 
 ```{r}
 varImp(fit)
 fit$finalModel
 ```
 
-Though the accuracy is high, the OOB estimated error is also quite high at 12%.  Out-of-bag estimate for the generalization error is the error rate of the out-of-bag classifier on the training set.  This tells us the out-of-bag estimate is as accurate as using a test set of the same size as the training set, with an estimate error of 12%.  
-
-The prediction model, thus can still be use as its accuracy is over 99%.   
+The reported OOB Estimated Error is at 12%.  However, based on the validation accuracy at over 99%, with CI between 99.87% to 99.97%, the prediction model can be applied to the final testing set, and predict the classe in the 20 test cases.  
 
 ## Apply the prediction model
 Apply the prediction model to the testing data.  And generate the files for submission with the given R code from the assignment.

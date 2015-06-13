@@ -3,7 +3,7 @@ Nicholas Wee
 Saturday, June 13, 2015  
 
 ## Download and load files into data.tables
-Check if the file exists.  If not, download it from the URL.  When reading in the file, change invalid values to NA.  
+Check if the data files exist.  If not, download it from the URL.  When reading in the file, change invalid values to NA.  
 
 
 ```r
@@ -58,9 +58,9 @@ subTrain <- subTrain[,-1]
 subTrain <- subTrain[, c(1:3, 5:58)]
 ```
 ## Separate the data to be used for Cross Validation
-Using the training data, separate out a set to be used for validation.  Technically, there is no need to create a separate set for validation given the Random Forests algorithm is a classifier based on primarily two methods - bagging and random subspace method.  And the datasets used are created using bootstrapping (resampling with replacement). using the out-of-bag error estimate removes the need for a set aside test set.  
+Using the training data, separate out a set to be used for validation.  From what I've read, there is no need to create a separate set for validation given the Random Forests algorithm is a classifier based on primarily two methods - bagging and random subspace method.  And the datasets used are created using bootstrapping (resampling with replacement), and internally performs cross-validation to refine the model. The out-of-bag error estimate defines the estimation errors in the internal generated validation sets.   
 
-Still the Cross Validation dataset is created here because it is one of the evaluation criteria.  
+However, as it is one of the project evaluation criteria, there is no harm to create a cross validation dataset to compare the model created by the training subset.  
 
 
 ```r
@@ -126,40 +126,40 @@ confusionMatrix(predTrain, subTraining$classe)
 ##           Reference
 ## Prediction    A    B    C    D    E
 ##          A 3348    0    0    0    0
-##          B    0 2279    3    0    0
-##          C    0    0 2051    2    0
+##          B    0 2279    2    0    0
+##          C    0    0 2052    2    0
 ##          D    0    0    0 1928    0
 ##          E    0    0    0    0 2165
 ## 
 ## Overall Statistics
-##                                          
-##                Accuracy : 0.9996         
-##                  95% CI : (0.999, 0.9999)
-##     No Information Rate : 0.2843         
-##     P-Value [Acc > NIR] : < 2.2e-16      
-##                                          
-##                   Kappa : 0.9995         
-##  Mcnemar's Test P-Value : NA             
+##                                           
+##                Accuracy : 0.9997          
+##                  95% CI : (0.9991, 0.9999)
+##     No Information Rate : 0.2843          
+##     P-Value [Acc > NIR] : < 2.2e-16       
+##                                           
+##                   Kappa : 0.9996          
+##  Mcnemar's Test P-Value : NA              
 ## 
 ## Statistics by Class:
 ## 
 ##                      Class: A Class: B Class: C Class: D Class: E
-## Sensitivity            1.0000   1.0000   0.9985   0.9990   1.0000
-## Specificity            1.0000   0.9997   0.9998   1.0000   1.0000
-## Pos Pred Value         1.0000   0.9987   0.9990   1.0000   1.0000
-## Neg Pred Value         1.0000   1.0000   0.9997   0.9998   1.0000
+## Sensitivity            1.0000   1.0000   0.9990   0.9990   1.0000
+## Specificity            1.0000   0.9998   0.9998   1.0000   1.0000
+## Pos Pred Value         1.0000   0.9991   0.9990   1.0000   1.0000
+## Neg Pred Value         1.0000   1.0000   0.9998   0.9998   1.0000
 ## Prevalence             0.2843   0.1935   0.1744   0.1639   0.1838
-## Detection Rate         0.2843   0.1935   0.1742   0.1637   0.1838
-## Detection Prevalence   0.2843   0.1938   0.1743   0.1637   0.1838
-## Balanced Accuracy      1.0000   0.9998   0.9992   0.9995   1.0000
+## Detection Rate         0.2843   0.1935   0.1743   0.1637   0.1838
+## Detection Prevalence   0.2843   0.1937   0.1744   0.1637   0.1838
+## Balanced Accuracy      1.0000   0.9999   0.9994   0.9995   1.0000
 ```
 
 Using the validation subset and create a prediction.  Then measure it's accuracy.  From the training subset, the accuracy is very high, at above 99%.
 
 
 ```r
-predTest <- predict(fit, subValidation)
-confusionMatrix(predTest, subValidation$classe)
+predValidation <- predict(fit, subValidation)
+confusionMatrix(predValidation, subValidation$classe)
 ```
 
 ```
@@ -168,10 +168,10 @@ confusionMatrix(predTest, subValidation$classe)
 ##           Reference
 ## Prediction    A    B    C    D    E
 ##          A 2232    1    0    0    0
-##          B    0 1517    2    0    0
-##          C    0    0 1366    1    0
-##          D    0    0    0 1284    1
-##          E    0    0    0    1 1441
+##          B    0 1517    3    0    0
+##          C    0    0 1365    1    0
+##          D    0    0    0 1284    0
+##          E    0    0    0    1 1442
 ## 
 ## Overall Statistics
 ##                                           
@@ -186,17 +186,17 @@ confusionMatrix(predTest, subValidation$classe)
 ## Statistics by Class:
 ## 
 ##                      Class: A Class: B Class: C Class: D Class: E
-## Sensitivity            1.0000   0.9993   0.9985   0.9984   0.9993
-## Specificity            0.9998   0.9997   0.9998   0.9998   0.9998
-## Pos Pred Value         0.9996   0.9987   0.9993   0.9992   0.9993
-## Neg Pred Value         1.0000   0.9998   0.9997   0.9997   0.9998
+## Sensitivity            1.0000   0.9993   0.9978   0.9984   1.0000
+## Specificity            0.9998   0.9995   0.9998   1.0000   0.9998
+## Pos Pred Value         0.9996   0.9980   0.9993   1.0000   0.9993
+## Neg Pred Value         1.0000   0.9998   0.9995   0.9997   1.0000
 ## Prevalence             0.2845   0.1935   0.1744   0.1639   0.1838
-## Detection Rate         0.2845   0.1933   0.1741   0.1637   0.1837
-## Detection Prevalence   0.2846   0.1936   0.1742   0.1638   0.1838
-## Balanced Accuracy      0.9999   0.9995   0.9992   0.9991   0.9996
+## Detection Rate         0.2845   0.1933   0.1740   0.1637   0.1838
+## Detection Prevalence   0.2846   0.1937   0.1741   0.1637   0.1839
+## Balanced Accuracy      0.9999   0.9994   0.9988   0.9992   0.9999
 ```
 
-From the validation subset, the accuracy is still very high, at above 99%. From the model, the following are the list of important predictors in the model.  The OOB Estimate Error create is found in the model.
+From the validation subset, the accuracy is still very high, at above 99%. From the model, the following are the list of important predictors in the model.  
 
 
 ```r
@@ -253,9 +253,7 @@ fit$finalModel
 ## E    0    0    0    2 2163 0.0009237875
 ```
 
-Though the accuracy is high, the OOB estimated error is also quite high at 12%.  Out-of-bag estimate for the generalization error is the error rate of the out-of-bag classifier on the training set.  This tells us the out-of-bag estimate is as accurate as using a test set of the same size as the training set, with an estimate error of 12%.  
-
-The prediction model, thus can still be use as its accuracy is over 99%.   
+The reported OOB Estimated Error is at 12%.  However, based on the validation accuracy at over 99%, with CI between 99.87% to 99.97%, the prediction model can be applied to the final testing set, and predict the classe in the 20 test cases.  
 
 ## Apply the prediction model
 Apply the prediction model to the testing data.  And generate the files for submission with the given R code from the assignment.
