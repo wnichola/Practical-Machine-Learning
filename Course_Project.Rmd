@@ -53,7 +53,9 @@ subTrain <- subTrain[,-1]
 subTrain <- subTrain[, c(1:3, 5:58)]
 ```
 ## Separate the data to be used for Cross Validation
-Using the training data, separate out a set to be used for validation.
+Using the training data, separate out a set to be used for validation.  Technically, there is no need to create a separate set for validation given the Random Forests algorithm is a classifier based on primarily two methods - bagging and random subspace method.  And the datasets used are created using bootstrapping (resampling with replacement). using the out-of-bag error estimate removes the need for a set aside test set.  
+
+Still the Cross Validation dataset is created here because it is one of the evaluation criteria.  
 
 ```{r}
 # Divide the training data into a training set and a validation set
@@ -110,7 +112,9 @@ varImp(fit)
 fit$finalModel
 ```
 
-Though the accuracy is high, the OOB estimated error is also quite high at 12%.  But the class error is sufficiently low to allow the model to be used for prediction.
+Though the accuracy is high, the OOB estimated error is also quite high at 12%.  Out-of-bag estimate for the generalization error is the error rate of the out-of-bag classifier on the training set.  This tells us the out-of-bag estimate is as accurate as using a test set of the same size as the training set, with an estimate error of 12%.  
+
+The prediction model, thus can still be use as its accuracy is over 99%.   
 
 ## Apply the prediction model
 Apply the prediction model to the testing data.  And generate the files for submission with the given R code from the assignment.
@@ -128,3 +132,6 @@ pml_write_files = function(x){
 
 pml_write_files(predTesting)
 ```
+
+   
+   ## End
