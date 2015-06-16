@@ -6,6 +6,17 @@ output:
   html_document:
     keep_md: yes
 ---
+## Executive Summary
+Human Activity Recognition (HAR) is a key research area that is gaining increasing attention, especially for the development of context-aware systems. There are many potential applications for HAR, like: elderly monitoring, life log systems for monitoring energy expenditure and for supporting weight-loss programs, and digital assistants for weight lifting exercises.  Using devices such as Jawbone Up, Nike FuelBand, and Fitbit it is now possible to collect a large amount of data about personal activity relatively inexpensively.  
+
+Six participants were asked to perform one set of 10 repetitions of the Unilateral Dumbbell Biceps Curl in five different fashions: exactly according to the specification (Class A), throwing the elbows to the front (Class B), lifting the dumbbell only halfway (Class C), lowering the dumbbell only halfway (Class D) and throwing the hips to the front (Class E).
+
+This report will describe how the data captured are used to identify the parameters involved in predicting the movement involved based on the above classification, and then to predict the movement for 20 test cases.  
+
+The training data were divided into two groups, a training data and a validation data (to be used to validate the data), to derived the prediction model by using the training data, to validate the model where an expected out-of-sample error rate of less than 0.5%, or 99.5% accuracy, would be acceptable before it is used to perform the prediction on the 20 test cases - that must have 100% accuracy (to obtain 20 points awarded).  
+
+The training model developed using Random Forest was able to achieve over 99.99% accuracy, or less than 0.03% out-of-sample error, and was able to predict the 20 test cases with 100% accuracy.  
+
 
 ## Download and load files into data.tables
 Check if the data files exist.  If not, download it from the URL.  When reading in the file, change invalid values to NA.  
@@ -33,7 +44,7 @@ if (!file.exists(target)) {
 testing <- read.csv(target, na.strings = c("NA","#DIV/0!",""))
 ```
 
-## Remove invalid predictors
+## (Clean and) Remove invalid predictors
 Reduce the number of predictors by removing columns that have near zero values, NA, or is empty.
 
 ```{r}
@@ -53,8 +64,8 @@ subTrain <- subTrain[,-1]
 subTrain <- subTrain[, c(1:3, 5:58)]
 ```
 ## Separate the data to be used for Cross Validation
-Using the training data, separate out a set to be used for validation.  From what I've read, there is no need to create a separate set for validation given the Random Forests algorithm is a classifier based on primarily two methods - bagging and random subspace method.  And the datasets used are created using bootstrapping (resampling with replacement), and internally performs cross-validation to refine the model. The out-of-bag error estimate defines the estimation errors in the internal generated validation sets.   
-
+Using the training data, separate out a set to be used for validation.  From what I've read (http://www.stat.berkeley.edu/~breiman/RandomForests/cc_home.htm#overview), there is no need to create a separate set for validation given the Random Forests algorithm is a classifier based on primarily two methods - bagging and random subspace method.  And the datasets used are created using bootstrapping (resampling with replacement), and internally performs cross-validation to refine the model. The out-of-bag error estimate defines the estimation errors in the internal generated validation sets.   
+  
 However, as it is one of the project evaluation criteria, there is no harm to create a cross validation dataset to compare the model created by the training subset.  
 
 ```{r}
@@ -116,10 +127,10 @@ varImp(fit)
 fit$finalModel
 ```
 
-The reported OOB Estimated Error is at 12%.  However, based on the validation accuracy at over 99%, with CI between 99.87% to 99.97%, the prediction model can be applied to the final testing set, and predict the classe in the 20 test cases.  
+The reported OOB Estimated Error is at 12%.  However, based on the validation accuracy at over 99% and Cross-Validation out-of-sample error rate of 0.03%, with CI between 99.87% to 99.97%, the prediction model should be applied to the final testing set, and predict the classe in the 20 test cases.  
 
 ## Apply the prediction model
-Apply the prediction model to the testing data. The predicted classification are:  
+Apply the prediction model to the testing data. The predicted classification are (and were 100% accurate):  
 
 ```{r}
 predTesting <- predict(fit, testing)
@@ -139,6 +150,9 @@ pml_write_files = function(x){
 
 pml_write_files(predTesting)
 ```
+## Conclusion
+
+The model predicted the 20 test cases with 100% accuracy.  All 20 points were awarded after submitting the 20 test files.  
 
    
    ## End
