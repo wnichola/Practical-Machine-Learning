@@ -90,7 +90,7 @@ if (!file.exists(model)) {
 }
 ```
 
-## Measure the accuracy of the prediction model
+## Measure the Accuracy and Sample Error of the prediction model
 Using the training subset and create a prediction.  Then measure it's accuracy
 
 ```{r}
@@ -98,14 +98,16 @@ predTrain <- predict(fit, subTraining)
 confusionMatrix(predTrain, subTraining$classe)
 ```
 
-Using the validation subset and create a prediction.  Then measure it's accuracy.  From the training subset, the accuracy is very high, at above 99%.
+Using the validation subset and create a prediction.  Then measure it's accuracy.  From the training subset, the accuracy is very high, at above 99%.  The sample error is 0.0008.
 
 ```{r}
 predValidation <- predict(fit, subValidation)
 confusionMatrix(predValidation, subValidation$classe)
 ```
 
-From the validation subset, the accuracy is still very high, at above 99%. From the model, the following are the list of important predictors in the model.  
+From the validation subset, the accuracy is still very high, at above 99%, with an out-of-sample error of 0.0003.  Not significantly different from the sample error.  
+  
+From the model, the following are the list of important predictors in the model.  
 
 ```{r}
 varImp(fit)
@@ -115,11 +117,16 @@ fit$finalModel
 The reported OOB Estimated Error is at 12%.  However, based on the validation accuracy at over 99%, with CI between 99.87% to 99.97%, the prediction model can be applied to the final testing set, and predict the classe in the 20 test cases.  
 
 ## Apply the prediction model
-Apply the prediction model to the testing data.  And generate the files for submission with the given R code from the assignment.
+Apply the prediction model to the testing data. The predicted classification are:  
 
 ```{r}
 predTesting <- predict(fit, testing)
+predTesting
+```
 
+And generate the files for submission with the given R code from the assignment.
+
+```{r}
 pml_write_files = function(x){
     n = length(x)
     for(i in 1:n){
