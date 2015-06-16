@@ -106,6 +106,8 @@ confusionMatrix(predValidation, subValidation$classe)
 ```
 
 From the validation subset, the accuracy is still very high, at above 99%, with an out-of-sample error of 0.0003.  Not significantly different from the sample error.  
+
+Given the level of accuracy, there is no need to build another prediction model for better accuracy, or to stack multiple prediction models.  These will only complicate the exercise - making it hard to explain, and takes too long a time to run another training process.  
   
 From the model, the following are the list of important predictors in the model.  
 

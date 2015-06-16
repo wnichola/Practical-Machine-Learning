@@ -126,32 +126,32 @@ confusionMatrix(predTrain, subTraining$classe)
 ##           Reference
 ## Prediction    A    B    C    D    E
 ##          A 3348    1    0    0    0
-##          B    0 2278    1    0    0
-##          C    0    0 2053    2    0
+##          B    0 2278    3    0    0
+##          C    0    0 2051    3    0
 ##          D    0    0    0 1927    1
-##          E    0    0    0    1 2164
+##          E    0    0    0    0 2164
 ## 
 ## Overall Statistics
 ##                                           
-##                Accuracy : 0.9995          
-##                  95% CI : (0.9989, 0.9998)
+##                Accuracy : 0.9993          
+##                  95% CI : (0.9987, 0.9997)
 ##     No Information Rate : 0.2843          
 ##     P-Value [Acc > NIR] : < 2.2e-16       
 ##                                           
-##                   Kappa : 0.9994          
+##                   Kappa : 0.9991          
 ##  Mcnemar's Test P-Value : NA              
 ## 
 ## Statistics by Class:
 ## 
 ##                      Class: A Class: B Class: C Class: D Class: E
-## Sensitivity            1.0000   0.9996   0.9995   0.9984   0.9995
-## Specificity            0.9999   0.9999   0.9998   0.9999   0.9999
-## Pos Pred Value         0.9997   0.9996   0.9990   0.9995   0.9995
-## Neg Pred Value         1.0000   0.9999   0.9999   0.9997   0.9999
+## Sensitivity            1.0000   0.9996   0.9985   0.9984   0.9995
+## Specificity            0.9999   0.9997   0.9997   0.9999   1.0000
+## Pos Pred Value         0.9997   0.9987   0.9985   0.9995   1.0000
+## Neg Pred Value         1.0000   0.9999   0.9997   0.9997   0.9999
 ## Prevalence             0.2843   0.1935   0.1744   0.1639   0.1838
-## Detection Rate         0.2843   0.1934   0.1743   0.1636   0.1838
-## Detection Prevalence   0.2844   0.1935   0.1745   0.1637   0.1838
-## Balanced Accuracy      0.9999   0.9997   0.9997   0.9992   0.9997
+## Detection Rate         0.2843   0.1934   0.1742   0.1636   0.1838
+## Detection Prevalence   0.2844   0.1937   0.1744   0.1637   0.1838
+## Balanced Accuracy      0.9999   0.9996   0.9991   0.9992   0.9998
 ```
 
 Using the validation subset and create a prediction.  Then measure it's accuracy.  From the training subset, the accuracy is very high, at above 99%.  The sample error is 0.0008.
@@ -168,35 +168,37 @@ confusionMatrix(predValidation, subValidation$classe)
 ##           Reference
 ## Prediction    A    B    C    D    E
 ##          A 2232    0    0    0    0
-##          B    0 1518    4    0    0
-##          C    0    0 1364    1    0
+##          B    0 1518    2    0    0
+##          C    0    0 1366    0    0
 ##          D    0    0    0 1285    0
-##          E    0    0    0    0 1442
+##          E    0    0    0    1 1442
 ## 
 ## Overall Statistics
 ##                                           
-##                Accuracy : 0.9994          
-##                  95% CI : (0.9985, 0.9998)
+##                Accuracy : 0.9996          
+##                  95% CI : (0.9989, 0.9999)
 ##     No Information Rate : 0.2845          
 ##     P-Value [Acc > NIR] : < 2.2e-16       
 ##                                           
-##                   Kappa : 0.9992          
+##                   Kappa : 0.9995          
 ##  Mcnemar's Test P-Value : NA              
 ## 
 ## Statistics by Class:
 ## 
 ##                      Class: A Class: B Class: C Class: D Class: E
-## Sensitivity            1.0000   1.0000   0.9971   0.9992   1.0000
-## Specificity            1.0000   0.9994   0.9998   1.0000   1.0000
-## Pos Pred Value         1.0000   0.9974   0.9993   1.0000   1.0000
-## Neg Pred Value         1.0000   1.0000   0.9994   0.9998   1.0000
+## Sensitivity            1.0000   1.0000   0.9985   0.9992   1.0000
+## Specificity            1.0000   0.9997   1.0000   1.0000   0.9998
+## Pos Pred Value         1.0000   0.9987   1.0000   1.0000   0.9993
+## Neg Pred Value         1.0000   1.0000   0.9997   0.9998   1.0000
 ## Prevalence             0.2845   0.1935   0.1744   0.1639   0.1838
-## Detection Rate         0.2845   0.1935   0.1738   0.1638   0.1838
-## Detection Prevalence   0.2845   0.1940   0.1740   0.1638   0.1838
-## Balanced Accuracy      1.0000   0.9997   0.9985   0.9996   1.0000
+## Detection Rate         0.2845   0.1935   0.1741   0.1638   0.1838
+## Detection Prevalence   0.2845   0.1937   0.1741   0.1638   0.1839
+## Balanced Accuracy      1.0000   0.9998   0.9993   0.9996   0.9999
 ```
 
 From the validation subset, the accuracy is still very high, at above 99%, with an out-of-sample error of 0.0003.  Not significantly different from the sample error.  
+
+Given the level of accuracy, there is no need to build another prediction model for better accuracy, or to stack multiple prediction models.  These will only complicate the exercise - making it hard to explain, and takes too long a time to run another training process.  
   
 From the model, the following are the list of important predictors in the model.  
 
